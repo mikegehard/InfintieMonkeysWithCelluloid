@@ -4,8 +4,6 @@ require 'celluloid'
 class Shakespeare
   VALID_WORDS = ["to", "be", "or", "not"]
 
-  # Inputs:
-  # number_of_monkeys: Integer - the number of monkeys to use to write your works
   def write_with_monkeys(number_of_generators)
 
     generate_futures = []
@@ -18,11 +16,6 @@ class Shakespeare
     end
 
     reduce_to_word_set(word_sets_from_futures(generate_futures)).partition { |word| VALID_WORDS.include? word }
-  end
-
-  def write_with_one_monkey
-    monkey_words = Monkey.new.generate_words(100)
-    monkey_words.partition { |word| VALID_WORDS.include? word }
   end
 
   private
