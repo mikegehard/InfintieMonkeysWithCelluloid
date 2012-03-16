@@ -6,15 +6,18 @@ class Shakespeare
 
   # Inputs:
   # number_of_monkeys: Integer - the number of monkeys to use to write your works
-  def write_with_monkeys(number_of_monkeys)
+  def write_with_monkeys(number_of_generators)
 
-    monkey_futures = []
-    number_of_monkeys.times do
-      monkey = Monkey.new
-      monkey_futures << monkey.future(:generate_words, 100)
+    generate_futures = []
+
+    # you only need to create one of these and just ask it to do
+    # things many times
+    monkey = Monkey.new
+    number_of_generators.times do
+      generate_futures << monkey.future(:generate_words, 100)
     end
 
-    reduce_to_word_set(word_sets_from_futures(monkey_futures)).partition { |word| VALID_WORDS.include? word }
+    reduce_to_word_set(word_sets_from_futures(generate_futures)).partition { |word| VALID_WORDS.include? word }
   end
 
   def write_with_one_monkey

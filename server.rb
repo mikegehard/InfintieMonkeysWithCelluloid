@@ -8,7 +8,6 @@ end
 
 post '/write' do
   start_time = Time.now
-  puts start_time.usec
   number_of_monkeys = params[:number].to_i || 1
   shakespeare_words, unworthy_words = if number_of_monkeys == 1
     Shakespeare.new.write_with_one_monkey
@@ -25,6 +24,6 @@ def generate_response(start_time, shakespeare_words, unworthy_words)
     result << word << "\n"
   end
   result << "UNWORTHY WORDS CREATED: #{unworthy_words.size}\n"
-  result << "In #{ (Time.now.usec - start_time.usec)} us\n"
+  result << "In #{ (Time.now - start_time) * 1000000} us\n"
   result
 end
