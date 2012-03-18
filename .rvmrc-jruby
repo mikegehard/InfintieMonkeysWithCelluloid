@@ -1,1 +1,1 @@
-rvm use jruby-1.6.7@celluloid_ruby_sample --create
+rvm use jruby-head@celluloid_ruby_sample --create
