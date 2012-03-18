@@ -3,22 +3,29 @@ require 'celluloid'
 
 class Shakespeare
   VALID_WORDS = ["to", "be", "or", "not"]
+  NUMBER_OF_MONKEYS = 10
 
-  def write_with_monkeys(number_of_generators)
+  def write_with_monkeys(number_of_words_to_try)
+    @monkeys ||= create_monkeys(NUMBER_OF_MONKEYS)
+    words_per_monkey = number_of_words_to_try / NUMBER_OF_MONKEYS
 
-    generate_futures = []
-
-    # you only need to create one of these and just ask it to do
-    # things many times
-    monkey = Monkey.new
-    number_of_generators.times do
-      generate_futures << monkey.future(:generate_words, 100)
+    futures = @monkeys.map do |monkey|
+      monkey.future(:generate_words, words_per_monkey)
     end
 
-    reduce_to_word_set(word_sets_from_futures(generate_futures)).partition { |word| VALID_WORDS.include? word }
+    reduce_to_word_set(word_sets_from_futures(futures)).partition { |word| VALID_WORDS.include? word }
   end
 
   private
+
+  def create_monkeys(number_of_monkeys)
+    monkeys = []
+    number_of_monkeys.times do
+      monkeys << Monkey.new
+    end
+    monkeys
+  end
+
   def word_sets_from_futures(futures)
     futures.map { |future| future.value }
   end
@@ -36,7 +43,7 @@ class Monkey
     generated_words = Set.new
 
     number_of_words.times do
-      generated_words.add(generate_word(Random.rand 1..10))
+      generated_words.add(generate_word(Random.rand(10) + 1 ))
     end
 
     generated_words

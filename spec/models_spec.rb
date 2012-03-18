@@ -16,26 +16,3 @@ describe Monkey do
   end
 end
 
-describe Shakespeare do
-  describe 'generating with one monkey' do
-    it "segregates the results into worthy and unworthy words" do
-      mock_monkey = double("Monkey", :generate_words => ["to", "be", 'foo', 'bar'])
-      Monkey.stub(:new) { mock_monkey }
-      shakespeare = Shakespeare.new
-      worthy_words, unworthy_words = shakespeare.write_with_one_monkey
-
-      worthy_words.should == ["to", "be"]
-      unworthy_words.should == ["foo", "bar"]
-    end
-    it "returns empty arrays if there are no matches" do
-      mock_monkey = double("Monkey", :generate_words => [])
-      Monkey.stub(:new) { mock_monkey }
-      shakespeare = Shakespeare.new
-      worthy_words, unworthy_words = shakespeare.write_with_one_monkey
-
-      worthy_words.should == []
-      unworthy_words.should == []
-    end
-  end
-end
-

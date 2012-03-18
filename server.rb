@@ -8,8 +8,8 @@ end
 
 post '/write' do
   start_time = Time.now
-  number_of_monkeys = params[:number].to_i || 1
-  shakespeare_words, unworthy_words = Shakespeare.new.write_with_monkeys(number_of_monkeys)
+  number_of_words_to_try = params['numberOfWordsToTry'].to_i || 1
+  shakespeare_words, unworthy_words = Shakespeare.new.write_with_monkeys(number_of_words_to_try)
   generate_response(start_time, shakespeare_words, unworthy_words)
 end
 
